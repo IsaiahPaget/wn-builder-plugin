@@ -1,10 +1,13 @@
-<?php namespace Winter\Builder\Classes;
+<?php
+
+namespace Winter\Builder\Classes;
 
 use Winter\Builder\Models\Settings as PluginSettings;
 use System\Classes\UpdateManager;
 use System\Classes\PluginManager;
 use Exception;
 use File;
+use \Illuminate\Support\Facades\Log;
 
 /**
  * Manages plugin basic information.
@@ -70,7 +73,7 @@ class PluginBaseModel extends PluginYamlModel
 
     public function getPluginCode()
     {
-        return $this->author_namespace.'.'.$this->namespace;
+        return $this->author_namespace . '.' . $this->namespace;
     }
 
     public static function listAllPluginCodes()
@@ -104,6 +107,10 @@ class PluginBaseModel extends PluginYamlModel
 
         foreach ($attributes as $attribute) {
             if ($attribute === 'replaces') {
+                // Guard clause added because I was getting an error when trying to create a new plugin
+                if (!is_array($this->{$attribute})) {
+                    continue;
+                }
                 $array[$attribute] = [];
 
                 foreach ($this->{$attribute} as $replace) {
@@ -145,10 +152,10 @@ class PluginBaseModel extends PluginYamlModel
         $this->localizedName = $this->name;
         $this->localizedDescription = $this->description;
 
-        $pluginCode = strtolower($this->author_namespace.'.'.$this->namespace);
+        $pluginCode = strtolower($this->author_namespace . '.' . $this->namespace);
 
-        $this->name = $pluginCode.'::lang.plugin.name';
-        $this->description = $pluginCode.'::lang.plugin.description';
+        $this->name = $pluginCode . '::lang.plugin.name';
+        $this->description = $pluginCode . '::lang.plugin.description';
     }
 
     protected function afterCreate()
@@ -157,8 +164,7 @@ class PluginBaseModel extends PluginYamlModel
             $this->initPluginStructure();
             $this->forcePluginRegistration();
             $this->initBuilderSettings();
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             $this->rollbackPluginCreation();
             throw $ex;
         }
@@ -171,10 +177,10 @@ class PluginBaseModel extends PluginYamlModel
         $defaultLanguage = LocalizationModel::getDefaultLanguage();
 
         $structure = [
-            $basePath.'/Plugin.php' => 'plugin.php.tpl',
-            $basePath.'/updates/version.yaml' => 'version.yaml.tpl',
-            $basePath.'/classes',
-            $basePath.'/lang/'.$defaultLanguage.'/lang.php' => 'lang.php.tpl'
+            $basePath . '/Plugin.php' => 'plugin.php.tpl',
+            $basePath . '/updates/version.yaml' => 'version.yaml.tpl',
+            $basePath . '/classes',
+            $basePath . '/lang/' . $defaultLanguage . '/lang.php' => 'lang.php.tpl'
         ];
 
         $variables = [
@@ -197,7 +203,7 @@ class PluginBaseModel extends PluginYamlModel
 
     protected function rollbackPluginCreation()
     {
-        $basePath = '$/'.$this->getPluginPath();
+        $basePath = '$/' . $this->getPluginPath();
         $basePath = File::symbolizePath($basePath);
 
         if (basename($basePath) == strtolower($this->namespace)) {

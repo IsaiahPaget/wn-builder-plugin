@@ -380,6 +380,7 @@ class TableMigrationCodeGenerator extends BaseModel
         $result = $this->generateColumnMethodCall($column);
         $result .= $this->generateNullable($column, $changeMode, $columnData, $forceFlagsChange);
         $result .= $this->generateUnsigned($column, $changeMode, $columnData, $forceFlagsChange);
+        $result .= $this->generateUnique($column, $changeMode, $columnData, $forceFlagsChange);
         $result .= $this->generateDefault($column, $changeMode, $columnData, $forceFlagsChange);
 
         if ($changeMode) {
@@ -439,6 +440,20 @@ class TableMigrationCodeGenerator extends BaseModel
     }
 
     protected function generateUnsigned($column, $changeMode, $columnData, $forceFlagsChange)
+    {
+        $result = null;
+
+        if (!$changeMode) {
+            if ($column->getUnsigned()) {
+                $result = $this->generateBooleanMethod('unsigned', true);
+            }
+        } elseif (in_array('unsigned', $columnData->changedProperties) || $forceFlagsChange) {
+            $result = $this->generateBooleanMethod('unsigned', $column->getUnsigned());
+        }
+
+        return $result;
+    }
+    protected function generateUnique($column, $changeMode, $columnData, $forceFlagsChange)
     {
         $result = null;
 

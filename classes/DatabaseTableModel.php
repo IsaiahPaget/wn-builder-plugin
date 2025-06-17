@@ -198,6 +198,7 @@ class DatabaseTableModel extends BaseModel
         $this->validateAutoIncrementColumns();
         $this->validateColumnsLengthParameter();
         $this->validateUnsignedColumns();
+        $this->validateUniqueColumns();
         $this->validateDefaultValues();
     }
 
@@ -292,6 +293,21 @@ class DatabaseTableModel extends BaseModel
             if (!in_array($column['type'], MigrationColumnType::getIntegerTypes())) {
                 throw new ValidationException([
                     'columns' => Lang::get('winter.builder::lang.database.error_unsigned_type_not_int', ['column'=>$column['name']])
+                ]);
+            }
+        }
+    }
+
+    protected function validateUniqueColumns()
+    {
+        foreach ($this->columns as $column) {
+            if (!$column['unique']) {
+                continue;
+            }
+
+            if (!in_array($column['type'], MigrationColumnType::getIntegerTypes())) {
+                throw new ValidationException([
+                    'columns' => Lang::get('winter.builder::lang.database.error_unique_type_not_int', ['column'=>$column['name']])
                 ]);
             }
         }
