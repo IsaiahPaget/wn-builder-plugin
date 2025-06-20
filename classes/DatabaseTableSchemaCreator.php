@@ -1,6 +1,9 @@
-<?php namespace Winter\Builder\Classes;
+<?php
+
+namespace Winter\Builder\Classes;
 
 use Doctrine\DBAL\Schema\Table;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Creates Doctrine table schema basing on the column information array.
@@ -19,7 +22,8 @@ class DatabaseTableSchemaCreator extends BaseModel
      */
     public function createTableSchema($name, $columns)
     {
-        $schema = new Table($name);
+        // NOTE: Table does not cover all the use cases so we use a decorator
+        $schema = new WinterTable($name);
 
         $primaryKeyColumns = [];
         foreach ($columns as $column) {

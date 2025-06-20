@@ -104,6 +104,10 @@ class PluginBaseModel extends PluginYamlModel
 
         foreach ($attributes as $attribute) {
             if ($attribute === 'replaces') {
+                // NOTE: added guard clause because I was getting an error: "foreach() argument must be of type array|object, string given" on line 109"
+                if (!is_array($this->{$attribute})) {
+                    continue;
+                }
                 $array[$attribute] = [];
 
                 foreach ($this->{$attribute} as $replace) {

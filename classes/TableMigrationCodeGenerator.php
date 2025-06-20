@@ -380,6 +380,7 @@ class TableMigrationCodeGenerator extends BaseModel
         $result = $this->generateColumnMethodCall($column);
         $result .= $this->generateNullable($column, $changeMode, $columnData, $forceFlagsChange);
         $result .= $this->generateUnsigned($column, $changeMode, $columnData, $forceFlagsChange);
+        $result .= $this->generateUnique($column, $changeMode, $columnData, $forceFlagsChange);
         $result .= $this->generateDefault($column, $changeMode, $columnData, $forceFlagsChange);
 
         if ($changeMode) {

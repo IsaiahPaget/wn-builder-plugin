@@ -35,7 +35,7 @@ class DatabaseTableModel extends BaseModel
     ];
 
     /**
-     * @var \Doctrine\DBAL\Schema\Table Table details loaded from the database.
+     * @var WinterTable Table details loaded from the database.
      */
     protected $tableInfo;
 
