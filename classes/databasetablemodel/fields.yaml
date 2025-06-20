@@ -30,8 +30,8 @@ tabs:
             columns:
                 name:
                     title: winter.builder::lang.database.column_name_name
-                    validation: 
-                        required: 
+                    validation:
+                        required:
                             message: winter.builder::lang.database.column_name_required
                         regex:
                             pattern: ^[0-9_a-z]+$
@@ -39,7 +39,7 @@ tabs:
                 type:
                     title: winter.builder::lang.database.column_name_type
                     type: dropdown
-                    options: 
+                    options:
                         integer: Integer
                         smallInteger: Small Integer
                         bigInteger: Big Integer
@@ -53,8 +53,8 @@ tabs:
                         boolean: Boolean
                         decimal: Decimal
                         double: Double
-                    validation: 
-                        required: 
+                    validation:
+                        required:
                             message: winter.builder::lang.database.column_type_required
                 length:
                     title: winter.builder::lang.database.column_name_length
@@ -64,6 +64,9 @@ tabs:
                             message: winter.builder::lang.database.column_validation_length
                 unsigned:
                     title: winter.builder::lang.database.column_name_unsigned
+                    type: checkbox
+                unique:
+                    title: winter.builder::lang.database.column_name_unique
                     type: checkbox
                 allow_null:
                     title: winter.builder::lang.database.column_name_nullable

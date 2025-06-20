@@ -209,7 +209,7 @@ class IndexDatabaseTableOperations extends IndexOperationsBehaviorBase
             return $postData;
         }
 
-        $booleanColumns = ['unsigned', 'allow_null', 'auto_increment', 'primary_key'];
+        $booleanColumns = ['unsigned','unique', 'allow_null', 'auto_increment', 'primary_key'];
         foreach ($postData['columns'] as &$row) {
             foreach ($row as $column => $value) {
                 if (in_array($column, $booleanColumns) && $value == 'false') {

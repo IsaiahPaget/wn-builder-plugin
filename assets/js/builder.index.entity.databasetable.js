@@ -146,6 +146,10 @@
         if (column == 'unsigned' && !value) {
             updatedRow.auto_increment = 0
         }
+        // WARNING: Maybe this aint so good lol
+        if (column == 'unique' && !value) {
+            updatedRow.auto_increment = 0
+        }
 
         if (column == 'primary_key' && value) {
             updatedRow.allow_null = 0

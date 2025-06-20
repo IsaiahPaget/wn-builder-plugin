@@ -71,10 +71,12 @@ return [
         'error_table_decimal_length' => "The Length parameter for :type type should be in format '10,2', without spaces.",
         'error_table_length' => 'The Length parameter for :type type should be specified as integer.',
         'error_unsigned_type_not_int' => "Error in the ':column' column. The Unsigned flag can be applied only to integer type columns.",
+        'error_unique_type_not_int' => "Error in the ':column' column. The Unique flag can be applied only to integer type columns.",
         'error_integer_default_value' => "Invalid default value for the integer column ':column'. The allowed formats are '10', '-10'.",
         'error_decimal_default_value' => "Invalid default value for the decimal or double column ':column'. The allowed formats are '1.00', '-1.00'.",
         'error_boolean_default_value' => "Invalid default value for the boolean column ':column'. The allowed values are '0' and '1'.",
         'error_unsigned_negative_value' => "The default value for the unsigned column ':column' can't be negative.",
+        'error_unique_negative_value' => "The default value for the unique column ':column' can't be negative.",
         'error_table_already_exists' => "La tabla ':name' ya existe en la base de datos.",
     ],
     'model' => [

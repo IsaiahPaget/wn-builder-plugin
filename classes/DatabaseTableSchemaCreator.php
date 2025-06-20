@@ -49,6 +49,7 @@ class DatabaseTableSchemaCreator extends BaseModel
         $result = MigrationColumnType::lengthToPrecisionAndScale($type, $options['length']);
 
         $result['unsigned'] = !!$options['unsigned'];
+        $result['unique'] = !!$options['unique'];
         $result['notnull'] = !$options['allow_null'];
         $result['autoincrement'] = !!$options['auto_increment'];
 

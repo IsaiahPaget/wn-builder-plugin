@@ -296,6 +296,20 @@ class DatabaseTableModel extends BaseModel
             }
         }
     }
+    protected function validateUniqueColumns()
+    {
+        foreach ($this->columns as $column) {
+            if (!$column['unique']) {
+                continue;
+            }
+
+            if (!in_array($column['type'], MigrationColumnType::getIntegerTypes())) {
+                throw new ValidationException([
+                    'columns' => Lang::get('winter.builder::lang.database.error_unique_type_not_int', ['column'=>$column['name']])
+                ]);
+            }
+        }
+    }
 
     protected function validateColumnsLengthParameter()
     {
@@ -333,6 +347,11 @@ class DatabaseTableModel extends BaseModel
                 if ($column['unsigned'] && $default < 0) {
                     throw new ValidationException([
                         'columns' => Lang::get('winter.builder::lang.database.error_unsigned_negative_value', ['column'=>$column['name']])
+                    ]);
+                }
+                if ($column['unique'] && $default < 0) {
+                    throw new ValidationException([
+                        'columns' => Lang::get('winter.builder::lang.database.error_unique_negative_value', ['column'=>$column['name']])
                     ]);
                 }
 
@@ -400,6 +419,7 @@ class DatabaseTableModel extends BaseModel
                 'type' => MigrationColumnType::toMigrationMethodName($typeName, $columnName),
                 'length' => MigrationColumnType::doctrineLengthToMigrationLength($column),
                 'unsigned' => $column->getUnsigned(),
+                'unique' => $column->getUnique(),
                 'allow_null' => !$column->getNotnull(),
                 'auto_increment' => $column->getAutoincrement(),
                 'primary_key' => in_array($columnName, $primaryKeyColumns),

@@ -57,6 +57,7 @@ return [
         'column_validation_length' => 'The Length value should be integer or specified as precision and scale (10,2) for decimal columns. Spaces are not allowed in the length column.',
         'column_validation_title' => 'Only digits, lower-case Latin letters and underscores are allowed in column names',
         'column_name_unsigned' => 'Unsigned',
+        'column_name_unique' => 'Unique',
         'column_name_nullable' => 'Nullable',
         'column_auto_increment' => 'AUTOINCR',
         'column_default' => 'Default',

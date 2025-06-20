@@ -452,6 +452,20 @@ class TableMigrationCodeGenerator extends BaseModel
 
         return $result;
     }
+    protected function generateUnique($column, $changeMode, $columnData, $forceFlagsChange)
+    {
+        $result = null;
+
+        if (!$changeMode) {
+            if ($column->getUnique()) {
+                $result = $this->generateBooleanMethod('unique', true);
+            }
+        } elseif (in_array('unique', $columnData->changedProperties) || $forceFlagsChange) {
+            $result = $this->generateBooleanMethod('unique', $column->getUnique());
+        }
+
+        return $result;
+    }
 
     protected function generateDefault($column, $changeMode, $columnData, $forceFlagsChange)
     {
